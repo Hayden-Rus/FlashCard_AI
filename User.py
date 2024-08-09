@@ -40,6 +40,17 @@ def register_User(username, password, email):
     result = users.insert_one(user)
     return result.inserted_id
 
+def login(password, username):
+
+    # Search database for user
+    user = users.find_one({"username": username})
+
+    # Check if user exists and password matches
+    if user:
+        hashed_password = user["password"]
+        return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
+    else:
+        return False
 
 register_User("hayden","213456ja","123@abc.com")
 
